@@ -12,6 +12,7 @@ import re
 
 from docx import Document
 from fpdf import FPDF
+from fpdf.enums import XPos, YPos
 
 
 def render_body(content: dict, fields: dict) -> str:
@@ -28,11 +29,25 @@ def render_pdf(title: str, body: str) -> bytes:
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Helvetica", "B", 16)
-    pdf.multi_cell(0, 10, title)
+    # multi_cell's default new_x/new_y leaves the cursor at the END of the
+    # text, not back at the left margin. With width=0 ("use remaining page
+    # width from the current x"), every following multi_cell(0, ...) call
+    # then has LESS width than the last, and a few calls in it hits zero
+    # and raises "not enough horizontal space to render a single
+    # character" — on completely ordinary text. Forcing new_x=LMARGIN,
+    # new_y=NEXT on every call is what actually resets the cursor.
+    pdf.multi_cell(0, 10, title, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.ln(4)
     pdf.set_font("Helvetica", size=12)
     for line in body.split("\n"):
-        pdf.multi_cell(0, 7, line)
+        # multi_cell also raises on an empty string ("not enough
+        # horizontal space") — paragraph breaks in real content (blank
+        # lines between clauses) hit this constantly, so blank lines get
+        # a plain line-advance instead.
+        if line.strip():
+            pdf.multi_cell(0, 7, line, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        else:
+            pdf.ln(7)
     return bytes(pdf.output())
 
 
