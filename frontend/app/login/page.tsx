@@ -65,7 +65,7 @@ export default function LoginPage() {
         </form>
         <div className="divider" />
         <p className="muted" style={{ textAlign: "center" }}>
-          <a href="/browse">Continue as guest →</a>
+          <a href="/browse">Continue as guest</a>
         </p>
       </div>
     </div>

@@ -84,16 +84,20 @@ export default function DraftFillPage() {
           ))}
         </div>
 
-        <div className="card" style={{ position: "sticky", top: 90 }}>
-          <h3>Preview</h3>
-          <p className="muted">Final formatted document is generated on export.</p>
-          <pre style={{ whiteSpace: "pre-wrap" }}>
+        <div style={{ position: "sticky", top: 90 }}>
+          <div className="sheet" style={{ marginBottom: 28 }}>
+            <div className="sheet-band">
+              <span>Your answers</span>
+              <span>{saved ? "Saved" : "Saving"}</span>
+            </div>
+          <pre style={{ whiteSpace: "pre-wrap", border: "none", margin: 0 }}>
             {Object.entries(fields).length
               ? Object.entries(fields)
                   .map(([k, v]) => `${k}: ${v}`)
                   .join("\n")
-              : "Start typing to see your answers here…"}
+              : "Your answers appear here as you type. The finished document is made when you download."}
           </pre>
+          </div>
           <div className="row">
             <a className="btn" href={api.exportDraftUrl(id, "pdf")}>
               Download PDF

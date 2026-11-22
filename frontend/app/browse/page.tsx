@@ -28,11 +28,10 @@ export default function BrowsePage() {
 
   return (
     <div className="container">
-      <div className="eyebrow">Catalogue</div>
-      <h1>Browse templates</h1>
-      <p className="lede">Search or filter by category, then open a template to see its full detail.</p>
+      <h1>Documents</h1>
+      <p className="lede">Search by name or narrow by category, then open one to see what it asks you.</p>
 
-      <input placeholder="Search by title…" value={search} onChange={(e) => setSearch(e.target.value)} />
+      <input placeholder="Search documents" aria-label="Search documents" value={search} onChange={(e) => setSearch(e.target.value)} />
       <div className="row" style={{ marginBottom: 24 }}>
         <button className={"pill-filter " + (category === "" ? "active" : "")} onClick={() => setCategory("")}>
           All
@@ -50,21 +49,26 @@ export default function BrowsePage() {
 
       {error && <div className="error">{error}</div>}
 
-      <div className="grid">
+      <div className="register">
+        <div className="register-row register-head">
+          <span>Document</span>
+          <span>Category</span>
+          <span>Access</span>
+        </div>
         {templates.map((t) => (
-          <Link key={t.id} href={`/templates/${t.id}`} className="card card-link">
-            <span className={"badge " + (t.tier === "pro" ? "tier-pro" : "tier-free")}>
+          <Link key={t.id} href={`/templates/${t.id}`} className="register-row">
+            <span className="doc">{t.title}</span>
+            <span className="law">{t.category}</span>
+            <span className={"who" + (t.mode !== "guided_self_serve" ? " advocate" : "")}>
               {t.tier === "pro" ? "Pro" : "Free"}
+              {t.mode === "advocate_only" ? ", advocates only" : t.mode !== "guided_self_serve" ? ", advocate check" : ""}
             </span>
-            {t.mode !== "guided_self_serve" && (
-              <span className="badge">{t.mode === "advocate_only" ? "Advocate-only" : "Advocate-reviewed"}</span>
-            )}
-            <h3 style={{ fontSize: 18, margin: "10px 0 4px" }}>{t.title}</h3>
-            <div className="muted">{t.category}</div>
           </Link>
         ))}
         {loaded && templates.length === 0 && !error && (
-          <p className="muted">No templates match this filter yet.</p>
+          <div className="register-row">
+            <span className="law">No document matches. Clear the search or pick another category.</span>
+          </div>
         )}
       </div>
     </div>

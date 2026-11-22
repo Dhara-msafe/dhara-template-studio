@@ -49,15 +49,15 @@ export default function PricingPage() {
           </ul>
         </div>
         <div className="card dark">
-          <div className="eyebrow" style={{ color: "#e3c9a8" }}>Pro</div>
-          <h2 style={{ fontSize: 26, color: "#f4f1e8" }}>{proPrice}</h2>
+          <div className="eyebrow">Pro</div>
+          <h2 style={{ fontSize: 26 }}>{proPrice}</h2>
           <p className="muted" style={{ marginBottom: 18 }}>Everything in Free, plus the full catalogue</p>
-          <ul style={{ paddingLeft: 18, color: "#f4f1e8" }}>
+          <ul style={{ paddingLeft: 18 }}>
             <li>All Free-tier benefits</li>
             <li>Access to Pro-tier templates</li>
             <li>Priority support</li>
           </ul>
-          <button onClick={upgrade} style={{ background: "#fff", color: "var(--ink)", width: "100%", marginTop: 8 }}>
+          <button onClick={upgrade} style={{ width: "100%", marginTop: 8 }}>
             Upgrade to Pro
           </button>
         </div>
