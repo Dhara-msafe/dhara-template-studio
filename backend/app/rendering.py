@@ -65,7 +65,7 @@ def render_pdf(title: str, body: str) -> bytes:
     # and raises "not enough horizontal space to render a single
     # character" — on completely ordinary text. Forcing new_x=LMARGIN,
     # new_y=NEXT on every call is what actually resets the cursor.
-    pdf.multi_cell(0, 10, title, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.multi_cell(0, 10, title, align="L", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.ln(4)
     pdf.set_font(family, size=11)
     for line in body.split("\n"):

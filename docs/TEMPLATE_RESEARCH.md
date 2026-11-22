@@ -1,7 +1,7 @@
-# Template library — research note (20 templates)
+# Template library — research note (21 templates)
 
 Checked on 22 November 2026. Covers the 4 original DHARA drafts and the 16
-templates added that day. Every template loads as `draft` (see
+templates added that day (17 including the insurance one). Every template loads as `draft` (see
 `supabase/seed.sql`); none is published.
 
 **What this note is.** A record of which law each template rests on, where
@@ -24,7 +24,7 @@ the procedure the official source describes.
 | SHe-Box portal relaunched 29 Aug 2024 | `posh-complaint` legal basis mentions SHe-Box as a filing route |
 | Draft Registration Bill, 2025 (to replace the Registration Act, 1908) | Still a draft when last seen (early 2026). Templates cite the 1908 Act. **Re-check before publishing** the rent agreement, power of attorney and will |
 
-## The 20 templates
+## The 21 templates
 
 Mode: G = guided self-serve, A = advocate-reviewed.
 
@@ -50,6 +50,7 @@ Mode: G = guided self-serve, A = advocate-reviewed.
 | 18 | defamation-notice | A | BNS 2023, s.356; tort; Limitation Act Art. 75 | Bare Act text of s.356 | Truth for public good and other exceptions; risk of counter-claim; one-year civil limitation |
 | 19 | posh-complaint | G | SH Act 2013, s.2(n), 3, 9, 12, 16; Rules 2013, r.7 | PIB note of 12 Feb 2026; statutory text of s.9 | Six copies under r.7; Local Committee route where there is no IC or the complaint is against the employer; template addresses the IC only |
 | 20 | rera-delay-notice | G | RERA 2016, s.18(1), 31, 71 | Statutory text of s.18; State RERA orders | Interest rate and complaint form differ by State |
+| 21 | insurance-claim-grievance | G | Insurance Ombudsman Rules 2017 (amended to 9 Nov 2023), r.13, 14 | Council for Insurance Ombudsmen (cioins.co.in); text of r.14(3) | Rs 50 lakh cap and one-year limit are stated in the legal basis, not enforced by the form; para 6 asserts full disclosure and paid-up premium for every user — reviewer may want these as user-confirmed fields; life-claim repudiation has its own rules (Insurance Act s.45) |
 
 ## Sources
 
@@ -63,6 +64,7 @@ Official
 - Supreme Court, judgment of 11 Apr 2019 (TPA s.106/107): https://api.sci.gov.in/supremecourt/2018/45428/45428_2018_Judgement_11-Apr-2019.pdf
 - Law Commission of India, 181st Report (TPA s.106): https://delhihighcourt.nic.in/files/reports/181.pdf
 - Bihar RERA, complaint instructions under s.31: https://rera.bihar.gov.in/public/login
+- Council for Insurance Ombudsmen, complaint conditions: https://cioins.co.in/
 - Consumer Protection Act, 2019 (India Code): https://www.indiacode.nic.in/bitstream/123456789/18964/1/cpa.pdf
 
 Secondary (used where the official text was not directly retrievable)
@@ -74,5 +76,5 @@ Secondary (used where the official text was not directly retrievable)
 
 - Dates print as `2026-11-22`. Legal documents should print `22 November 2026`.
 - Optional fields left blank print as an empty value after their label.
-- All 20 are tier `free`; which ones are Pro is a business decision not yet made.
+- All 21 are tier `free`; which ones are Pro is a business decision not yet made.
 - Hindi/Marathi PDF export needs a Devanagari font and text shaping.

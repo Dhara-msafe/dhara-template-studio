@@ -1,5 +1,5 @@
 -- DHARA Template Studio — seed data
--- 20 templates: DHARA's 4 original drafts (TS-08) plus 16 added 2026-11-22, in the
+-- 21 templates: DHARA's 4 original drafts (TS-08) plus 17 added 2026-11-22, in the
 -- template engine as real seed templates (EN only for now — HI/MR variants
 -- are a content task, not a schema task, see TS-11).
 --
@@ -498,6 +498,34 @@ values (
     {"key": "promised_possession_date", "label": "Possession date promised in the agreement", "type": "date", "required": true},
     {"key": "relief_sought", "label": "What you want: (A) possession plus interest for every month of delay, OR (B) withdraw and full refund with interest", "type": "textarea", "required": true},
     {"key": "notice_date", "label": "Date of notice", "type": "date", "required": true}
+  ]'::jsonb
+)
+on conflict (slug) do nothing;
+
+-- 21. Insurance Claim Rejected or Delayed — Written Representation to Insurer
+insert into templates (slug, title, category, legal_basis, tier, mode, field_schema)
+values (
+  'insurance-claim-grievance',
+  'Insurance Claim Rejected or Delayed — Written Representation to Insurer',
+  'Banking & Finance',
+  'Insurance Ombudsman Rules, 2017 (as amended up to 9 Nov 2023), Rules 13 and 14: written representation to the insurer first; complaint to the Insurance Ombudsman if rejected, unsatisfactory, or unanswered for one month, filed within one year, for claims up to Rs 50 lakh — cioins.co.in; IRDAI Bima Bharosa portal',
+  'free', 'guided_self_serve',
+  '[
+    {"key": "policyholder_name", "label": "Your full name", "type": "text", "required": true},
+    {"key": "policyholder_address", "label": "Your address", "type": "textarea", "required": true},
+    {"key": "policyholder_contact", "label": "Your phone number and email", "type": "text", "required": true},
+    {"key": "insurer_name", "label": "Insurance company name", "type": "text", "required": true},
+    {"key": "insurer_address", "label": "Grievance office / branch address", "type": "textarea", "required": true},
+    {"key": "policy_type", "label": "Type of policy (health / life / motor / home / travel)", "type": "text", "required": true},
+    {"key": "policy_number", "label": "Policy number", "type": "text", "required": true},
+    {"key": "claim_number", "label": "Claim number", "type": "text", "required": true},
+    {"key": "claim_date", "label": "Date you made the claim", "type": "date", "required": true},
+    {"key": "claim_amount", "label": "Amount claimed (INR)", "type": "number", "required": true},
+    {"key": "insurer_decision", "label": "What the insurer did (rejected / paid less / no decision) and the date", "type": "text", "required": true},
+    {"key": "insurer_reason", "label": "Reason the insurer gave — or ''No reason given''", "type": "textarea", "required": true},
+    {"key": "why_wrong", "label": "Why that decision is wrong, in date order", "type": "textarea", "required": true},
+    {"key": "resolution_sought", "label": "What you want (full payment / balance amount / decision on the claim)", "type": "textarea", "required": true},
+    {"key": "representation_date", "label": "Date of this letter", "type": "date", "required": true}
   ]'::jsonb
 )
 on conflict (slug) do nothing;
@@ -1253,6 +1281,53 @@ Sir/Madam,
 
 Yours faithfully,
 {{allottee_name}}
+$body$::text),
+        ('insurance-claim-grievance', $body$
+Date: {{representation_date}}
+
+To,
+The Grievance Redressal Officer,
+{{insurer_name}}
+{{insurer_address}}
+
+Subject: Written representation against the decision on Claim No. {{claim_number}} under Policy No. {{policy_number}}
+
+Sir/Madam,
+
+1. I am the policyholder / claimant under your {{policy_type}} Policy No. {{policy_number}}. I am making this written representation about your handling of my claim.
+
+2. Claim number: {{claim_number}}
+Date of claim: {{claim_date}}
+Amount claimed: INR {{claim_amount}}
+
+3. Your decision on the claim: {{insurer_decision}}
+
+4. Reason given by you:
+{{insurer_reason}}
+
+5. Why the decision is not correct:
+{{why_wrong}}
+
+6. I had disclosed all material facts when taking the policy, the premium was paid up to date, and all documents asked for in support of the claim have been submitted. The claim falls within the cover given by the policy.
+
+7. Resolution I am asking for:
+{{resolution_sought}}
+
+8. Please acknowledge this representation in writing, give me a grievance reference number, and send me your reasoned decision, with the policy clause relied upon if you maintain your decision.
+
+9. Please note that if this representation is rejected, or I do not receive a reply within one month of your receiving it, or your reply does not satisfy me, I shall file a complaint with the Insurance Ombudsman under Rule 14 of the Insurance Ombudsman Rules, 2017, and shall also register the grievance with the Insurance Regulatory and Development Authority of India on the Bima Bharosa portal. I shall claim the amount due together with interest for the delay.
+
+10. This representation is made without prejudice to my other rights and remedies, including under the Consumer Protection Act, 2019.
+
+My contact details:
+Name: {{policyholder_name}}
+Address: {{policyholder_address}}
+Phone / email: {{policyholder_contact}}
+
+Enclosures: copy of the policy, the claim form, your decision letter, and the supporting bills and records.
+
+Yours faithfully,
+{{policyholder_name}}
 $body$::text)
     ) as x(slug, body_text)
     join templates on templates.slug = x.slug
