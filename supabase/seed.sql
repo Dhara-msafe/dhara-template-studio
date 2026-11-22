@@ -1,5 +1,5 @@
 -- DHARA Template Studio — seed data
--- 21 templates: DHARA's 4 original drafts (TS-08) plus 17 added 2026-11-22, in the
+-- 25 templates: DHARA's 4 original drafts (TS-08) plus 21 added 2026-11-22, in the
 -- template engine as real seed templates (EN only for now — HI/MR variants
 -- are a content task, not a schema task, see TS-11).
 --
@@ -526,6 +526,120 @@ values (
     {"key": "why_wrong", "label": "Why that decision is wrong, in date order", "type": "textarea", "required": true},
     {"key": "resolution_sought", "label": "What you want (full payment / balance amount / decision on the claim)", "type": "textarea", "required": true},
     {"key": "representation_date", "label": "Date of this letter", "type": "date", "required": true}
+  ]'::jsonb
+)
+on conflict (slug) do nothing;
+
+-- 22. Legal Heir Affidavit (Self-Declaration of Heirs)
+insert into templates (slug, title, category, legal_basis, tier, mode, field_schema)
+values (
+  'legal-heir-affidavit',
+  'Legal Heir Affidavit (Self-Declaration of Heirs)',
+  'Family & Succession',
+  'Sworn affidavit under the Oaths Act, 1969; supports an application for a legal heir / family member certificate under State revenue rules, or a claim with a bank, insurer or employer. It is not a succession certificate (Indian Succession Act, 1925, Part X, Sections 370-390), which only a court can grant',
+  'free', 'guided_self_serve',
+  '[
+    {"key": "deponent_name", "label": "Your full name", "type": "text", "required": true},
+    {"key": "deponent_parent_or_spouse", "label": "Your father''s / mother''s / spouse''s name", "type": "text", "required": true},
+    {"key": "deponent_age", "label": "Your age (years)", "type": "number", "required": true},
+    {"key": "deponent_address", "label": "Your full address", "type": "textarea", "required": true},
+    {"key": "deceased_name", "label": "Full name of the person who died", "type": "text", "required": true},
+    {"key": "relationship_to_deceased", "label": "Your relationship to them (e.g. son, wife)", "type": "text", "required": true},
+    {"key": "date_of_death", "label": "Date of death", "type": "date", "required": true},
+    {"key": "place_of_death", "label": "Place of death", "type": "text", "required": true},
+    {"key": "deceased_last_address", "label": "Their last address", "type": "textarea", "required": true},
+    {"key": "heirs_list", "label": "All surviving legal heirs: name, age, relationship, address (number each)", "type": "textarea", "required": true},
+    {"key": "will_status", "label": "Did they leave a Will? (e.g. ''did not leave any Will'')", "type": "text", "required": true},
+    {"key": "purpose", "label": "Where this affidavit will be submitted, and for what (e.g. Tahsildar, for a legal heir certificate)", "type": "text", "required": true},
+    {"key": "place", "label": "Place where the affidavit is sworn", "type": "text", "required": true},
+    {"key": "affidavit_date", "label": "Date", "type": "date", "required": true}
+  ]'::jsonb
+)
+on conflict (slug) do nothing;
+
+-- 23. Maintenance — Legal Notice to Spouse / Child / Parent
+insert into templates (slug, title, category, legal_basis, tier, mode, field_schema)
+values (
+  'maintenance-notice',
+  'Maintenance — Legal Notice to Spouse / Child / Parent',
+  'Family & Succession',
+  'Bharatiya Nagarik Suraksha Sanhita, 2023, Section 144 (maintenance of wife, children and parents; replaced Section 125 of the CrPC on 1 July 2024). Other routes depending on the facts: personal law, the Protection of Women from Domestic Violence Act, 2005, and the Maintenance and Welfare of Parents and Senior Citizens Act, 2007',
+  'free', 'advocate_reviewed',
+  '[
+    {"key": "claimant_name", "label": "Your full name", "type": "text", "required": true},
+    {"key": "claimant_address", "label": "Your address", "type": "textarea", "required": true},
+    {"key": "respondent_name", "label": "Name of the person who should be maintaining you", "type": "text", "required": true},
+    {"key": "respondent_address", "label": "Their address", "type": "textarea", "required": true},
+    {"key": "relationship", "label": "Your relationship to them (e.g. wife, mother, father)", "type": "text", "required": true},
+    {"key": "relationship_facts", "label": "Basic facts (e.g. date and place of marriage; names and ages of children)", "type": "textarea", "required": true},
+    {"key": "neglect_since", "label": "Since when have they not been maintaining you", "type": "date", "required": true},
+    {"key": "circumstances", "label": "What happened, and why you cannot maintain yourself", "type": "textarea", "required": true},
+    {"key": "respondent_means", "label": "Their job / business and income, as far as you know", "type": "textarea", "required": true},
+    {"key": "monthly_amount", "label": "Monthly maintenance you are asking for (INR)", "type": "number", "required": true},
+    {"key": "notice_date", "label": "Date of notice", "type": "date", "required": true}
+  ]'::jsonb
+)
+on conflict (slug) do nothing;
+
+-- 24. Motor Accident Compensation — Claim Application (MACT)
+insert into templates (slug, title, category, legal_basis, tier, mode, field_schema)
+values (
+  'motor-accident-claim-application',
+  'Motor Accident Compensation — Claim Application (MACT)',
+  'Accident & Insurance',
+  'Motor Vehicles Act, 1988, Sections 165, 166 and 168 (application to the Motor Accidents Claims Tribunal). Section 166(3) sets a six-month limit from the accident (in force 1 April 2022); by interim order of November 2025 the Supreme Court directed that claims not be dismissed as time-barred while the challenge to that limit is pending — check the current position before filing',
+  'free', 'advocate_reviewed',
+  '[
+    {"key": "tribunal_place", "label": "District / city of the Tribunal", "type": "text", "required": true},
+    {"key": "claimant_name", "label": "Claimant''s full name (injured person, or family member of the deceased)", "type": "text", "required": true},
+    {"key": "claimant_address", "label": "Claimant''s address", "type": "textarea", "required": true},
+    {"key": "claimant_relationship", "label": "Claimant is: ''the injured person'' or relationship to the deceased (e.g. wife)", "type": "text", "required": true},
+    {"key": "victim_name", "label": "Name of the injured / deceased person", "type": "text", "required": true},
+    {"key": "victim_age", "label": "Their age (years)", "type": "number", "required": true},
+    {"key": "victim_occupation", "label": "Their occupation", "type": "text", "required": true},
+    {"key": "victim_monthly_income", "label": "Their monthly income (INR)", "type": "number", "required": true},
+    {"key": "accident_date", "label": "Date of accident", "type": "date", "required": true},
+    {"key": "accident_time", "label": "Time of accident", "type": "text", "required": true},
+    {"key": "accident_place", "label": "Place of accident", "type": "text", "required": true},
+    {"key": "accident_description", "label": "How the accident happened", "type": "textarea", "required": true},
+    {"key": "vehicle_number", "label": "Registration number of the offending vehicle", "type": "text", "required": true},
+    {"key": "driver_details", "label": "Driver''s name and address (or ''Not known'')", "type": "textarea", "required": true},
+    {"key": "owner_details", "label": "Vehicle owner''s name and address", "type": "textarea", "required": true},
+    {"key": "insurer_details", "label": "Insurance company, address and policy number", "type": "textarea", "required": true},
+    {"key": "fir_details", "label": "FIR number, date and police station", "type": "text", "required": true},
+    {"key": "injury_details", "label": "Injuries and treatment — or date and cause of death", "type": "textarea", "required": true},
+    {"key": "expenses_incurred", "label": "Medical and other expenses so far (INR)", "type": "number", "required": true},
+    {"key": "compensation_claimed", "label": "Total compensation claimed (INR)", "type": "number", "required": true},
+    {"key": "documents_list", "label": "Documents attached (number each)", "type": "textarea", "required": true},
+    {"key": "filing_date", "label": "Date of filing", "type": "date", "required": true}
+  ]'::jsonb
+)
+on conflict (slug) do nothing;
+
+-- 25. Agreement to Sell (Immovable Property)
+insert into templates (slug, title, category, legal_basis, tier, mode, field_schema)
+values (
+  'agreement-to-sell',
+  'Agreement to Sell (Immovable Property)',
+  'Property & Tenancy',
+  'Transfer of Property Act, 1882, Section 54 (an agreement to sell does not itself transfer ownership or create an interest in the property) and Section 53A; Registration Act, 1908, Sections 17(1A) and 49; Specific Relief Act, 1963; stamp duty and registration under State law',
+  'free', 'advocate_reviewed',
+  '[
+    {"key": "agreement_date", "label": "Date of agreement", "type": "date", "required": true},
+    {"key": "agreement_place", "label": "Place of signing", "type": "text", "required": true},
+    {"key": "seller_name", "label": "Seller''s full name", "type": "text", "required": true},
+    {"key": "seller_address", "label": "Seller''s address", "type": "textarea", "required": true},
+    {"key": "buyer_name", "label": "Buyer''s full name", "type": "text", "required": true},
+    {"key": "buyer_address", "label": "Buyer''s address", "type": "textarea", "required": true},
+    {"key": "property_description", "label": "Full description of the property (address, area, survey / flat number, boundaries)", "type": "textarea", "required": true},
+    {"key": "title_source", "label": "How the seller got the property (e.g. sale deed dated ..., registered as No. ...)", "type": "text", "required": true},
+    {"key": "sale_price", "label": "Total sale price (INR)", "type": "number", "required": true},
+    {"key": "price_in_words", "label": "Total sale price in words", "type": "text", "required": true},
+    {"key": "advance_amount", "label": "Advance / earnest money paid today (INR)", "type": "number", "required": true},
+    {"key": "advance_payment_mode", "label": "How the advance was paid (cheque / bank transfer — with reference)", "type": "text", "required": true},
+    {"key": "completion_date", "label": "Date by which the sale deed must be signed and registered", "type": "date", "required": true},
+    {"key": "witness_1_name", "label": "Witness 1 — name and address", "type": "text", "required": true},
+    {"key": "witness_2_name", "label": "Witness 2 — name and address", "type": "text", "required": true}
   ]'::jsonb
 )
 on conflict (slug) do nothing;
@@ -1328,6 +1442,221 @@ Enclosures: copy of the policy, the claim form, your decision letter, and the su
 
 Yours faithfully,
 {{policyholder_name}}
+$body$::text),
+        ('legal-heir-affidavit', $body$
+AFFIDAVIT OF LEGAL HEIRS
+
+I, {{deponent_name}}, son / daughter / spouse of {{deponent_parent_or_spouse}}, aged {{deponent_age}} years, residing at {{deponent_address}}, do hereby solemnly affirm and declare as follows:
+
+1. That I am the {{relationship_to_deceased}} of the late {{deceased_name}} (the "deceased"), who last resided at {{deceased_last_address}}.
+
+2. That the deceased died on {{date_of_death}} at {{place_of_death}}. A copy of the death certificate is attached.
+
+3. That, to my knowledge, the deceased {{will_status}}.
+
+4. That the deceased has left behind the following persons as the only surviving legal heirs:
+{{heirs_list}}
+
+5. That apart from the persons named above, the deceased has left no other legal heir, and no person has been left out of the above list.
+
+6. That there is no dispute among the legal heirs named above regarding their relationship with the deceased, and no proceeding regarding the estate of the deceased is pending before any court, to my knowledge.
+
+7. That I am making this affidavit for the following purpose: {{purpose}}.
+
+8. That I understand that if any statement in this affidavit is found to be false, I shall be liable for the consequences under law, and I undertake to indemnify any authority or institution that acts on this affidavit against any claim made by a person who has been left out.
+
+DEPONENT
+{{deponent_name}}
+
+VERIFICATION
+
+Verified at {{place}} on {{affidavit_date}} that the contents of paragraphs 1 to 8 of this affidavit are true and correct to my knowledge and belief, that no part of it is false, and that nothing material has been concealed.
+
+DEPONENT
+{{deponent_name}}
+$body$::text),
+        ('maintenance-notice', $body$
+LEGAL NOTICE
+
+Date: {{notice_date}}
+
+To,
+{{respondent_name}}
+{{respondent_address}}
+
+From,
+{{claimant_name}}
+{{claimant_address}}
+
+Subject: Notice demanding maintenance
+
+Dear {{respondent_name}},
+
+1. I am your {{relationship}}. The basic facts of our relationship are:
+{{relationship_facts}}
+
+2. Since {{neglect_since}}, you have neglected and refused to maintain me. The circumstances are as follows:
+{{circumstances}}
+
+3. I have no sufficient income or means of my own and am unable to maintain myself.
+
+4. You have sufficient means to maintain me. To my knowledge, your occupation and income are:
+{{respondent_means}}
+
+5. You are under a legal duty to maintain me. Under Section 144 of the Bharatiya Nagarik Suraksha Sanhita, 2023, a person of sufficient means who neglects or refuses to maintain his wife, child, or father or mother who is unable to maintain herself or himself can be ordered by a Magistrate to pay a monthly allowance.
+
+6. I therefore call upon you, within fifteen (15) days of receiving this notice, to:
+(a) Begin paying me INR {{monthly_amount}} per month as maintenance, on or before the 7th day of each month; and
+(b) Pay the arrears of maintenance at the same rate from {{neglect_since}} to date.
+
+7. If you fail to comply within the above period, I shall be constrained to file an application for maintenance, interim maintenance and the expenses of the proceedings before the competent Magistrate / Family Court, and to take such other proceedings as are available to me in law, entirely at your risk as to costs and consequences.
+
+8. This notice is issued without prejudice to all my other rights and remedies. A copy has been retained for record.
+
+Yours faithfully,
+{{claimant_name}}
+$body$::text),
+        ('motor-accident-claim-application', $body$
+BEFORE THE MOTOR ACCIDENTS CLAIMS TRIBUNAL AT {{tribunal_place}}
+
+M.A.C.P. No. ________ of ________
+
+{{claimant_name}}
+{{claimant_address}}
+... Claimant
+
+VERSUS
+
+1. Driver of vehicle No. {{vehicle_number}}:
+{{driver_details}}
+
+2. Owner of vehicle No. {{vehicle_number}}:
+{{owner_details}}
+
+3. Insurer of vehicle No. {{vehicle_number}}:
+{{insurer_details}}
+... Respondents
+
+APPLICATION FOR COMPENSATION UNDER SECTION 166 OF THE MOTOR VEHICLES ACT, 1988
+
+The Claimant respectfully submits as follows:
+
+1. Name of the person injured / deceased: {{victim_name}}
+Age: {{victim_age}} years
+Occupation: {{victim_occupation}}
+Monthly income: INR {{victim_monthly_income}}
+
+2. The Claimant is: {{claimant_relationship}}.
+
+3. Date, time and place of the accident: {{accident_date}}, at about {{accident_time}}, at {{accident_place}}.
+
+4. Registration number of the vehicle involved: {{vehicle_number}}
+
+5. How the accident took place:
+{{accident_description}}
+
+6. The accident took place solely because of the rash and negligent driving of the said vehicle by Respondent No. 1.
+
+7. Police case: {{fir_details}}
+
+8. Nature of the injuries and treatment / particulars of death:
+{{injury_details}}
+
+9. Expenses incurred so far on treatment, transport and related needs: INR {{expenses_incurred}}
+
+10. At the time of the accident, Respondent No. 1 was driving the vehicle, Respondent No. 2 was its owner, and the vehicle was insured with Respondent No. 3. The Respondents are jointly and severally liable to pay compensation.
+
+11. Jurisdiction: This Tribunal has jurisdiction under Section 166(2) of the Act.
+
+12. The Claimant has not filed any other application for compensation in respect of this accident before any other Tribunal or court.
+
+13. Amount of compensation claimed: INR {{compensation_claimed}}, with interest from the date of this application until payment.
+
+PRAYER
+
+The Claimant therefore prays that this Tribunal may be pleased to:
+(a) Award compensation of INR {{compensation_claimed}} to the Claimant, payable jointly and severally by the Respondents;
+(b) Award interest on that amount from the date of this application until payment;
+(c) Award the costs of this application; and
+(d) Pass any other order that this Tribunal considers just and proper.
+
+LIST OF DOCUMENTS
+{{documents_list}}
+
+Place: {{tribunal_place}}
+Date: {{filing_date}}
+
+{{claimant_name}}
+Claimant
+
+VERIFICATION
+
+I, {{claimant_name}}, the Claimant above named, verify that the contents of paragraphs 1 to 13 of this application are true to my knowledge and belief, and that nothing material has been concealed.
+
+Verified at {{tribunal_place}} on {{filing_date}}.
+
+{{claimant_name}}
+Claimant
+$body$::text),
+        ('agreement-to-sell', $body$
+AGREEMENT TO SELL
+
+This Agreement to Sell is made at {{agreement_place}} on {{agreement_date}}
+
+BETWEEN
+
+{{seller_name}}, residing at {{seller_address}} (the "Seller"), of the one part;
+
+AND
+
+{{buyer_name}}, residing at {{buyer_address}} (the "Buyer"), of the other part.
+
+WHEREAS the Seller is the absolute owner of, and is in possession of, the following property (the "Property"):
+{{property_description}}
+
+AND WHEREAS the Seller acquired the Property as follows: {{title_source}}.
+
+AND WHEREAS the Seller has agreed to sell the Property to the Buyer, and the Buyer has agreed to buy it, on the terms set out below.
+
+NOW THE PARTIES AGREE AS FOLLOWS:
+
+1. Sale price. The Seller shall sell and the Buyer shall buy the Property for a total price of INR {{sale_price}} ({{price_in_words}}).
+
+2. Advance. The Buyer has today paid the Seller INR {{advance_amount}} as advance and part payment of the price, by {{advance_payment_mode}}. The Seller acknowledges receipt of this amount.
+
+3. Balance. The Buyer shall pay the balance of the price to the Seller at the time of signing and registration of the sale deed, after deducting any tax that the law requires the Buyer to deduct at source, for which the Buyer shall give the Seller the prescribed certificate.
+
+4. Completion. The sale deed shall be signed and registered on or before {{completion_date}}. Time is of the essence of this Agreement.
+
+5. Title. The Seller declares that the Seller has clear and marketable title to the Property; that the Property is free from any mortgage, charge, lien, court attachment, acquisition proceeding, tenancy or other encumbrance; and that the Seller has not entered into any other agreement to sell or transfer the Property.
+
+6. Documents. The Seller shall give the Buyer copies of the title documents on signing this Agreement so that the Buyer can verify title, and shall hand over the originals at the time of registration of the sale deed.
+
+7. Dues. The Seller shall pay all property tax, electricity, water, maintenance and other dues in respect of the Property up to the date of the sale deed. The Buyer shall pay them from that date.
+
+8. Possession. The Seller shall hand over vacant and peaceful possession of the Property to the Buyer at the time of registration of the sale deed, on receiving the full price. Possession is not being handed over under this Agreement.
+
+9. Costs. The stamp duty, registration fee and other costs of the sale deed shall be paid by the Buyer.
+
+10. Default by the Buyer. If the Buyer fails to pay the balance and complete the sale by the date in clause 4, although the Seller is ready and willing to complete, the Seller may cancel this Agreement by written notice and retain the advance.
+
+11. Default by the Seller. If the Seller fails to complete the sale by the date in clause 4, although the Buyer is ready and willing to pay the balance, the Buyer may either enforce this Agreement through a suit for specific performance, or cancel it by written notice and recover the advance from the Seller together with compensation for the loss caused.
+
+12. No transfer of ownership. This Agreement is only an agreement to sell. Ownership of the Property will pass to the Buyer only on the signing and registration of the sale deed.
+
+13. Stamp duty and registration of this Agreement. This Agreement shall be executed on stamp paper of the value required by the law of the State in which the Property is situated, and shall be registered where that law so requires.
+
+14. Jurisdiction. Any dispute arising out of this Agreement shall be subject to the courts having jurisdiction at the place where the Property is situated.
+
+IN WITNESS WHEREOF the parties have signed this Agreement on the date and at the place first written above.
+
+SELLER: {{seller_name}}
+
+BUYER: {{buyer_name}}
+
+WITNESSES:
+1. {{witness_1_name}}
+2. {{witness_2_name}}
 $body$::text)
     ) as x(slug, body_text)
     join templates on templates.slug = x.slug

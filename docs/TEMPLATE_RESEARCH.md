@@ -1,7 +1,7 @@
-# Template library — research note (21 templates)
+# Template library — research note (25 templates)
 
 Checked on 22 November 2026. Covers the 4 original DHARA drafts and the 16
-templates added that day (17 including the insurance one). Every template loads as `draft` (see
+templates added that day (21 in all). Every template loads as `draft` (see
 `supabase/seed.sql`); none is published.
 
 **What this note is.** A record of which law each template rests on, where
@@ -22,9 +22,10 @@ the procedure the official source describes.
 | Repealing and Amending Act, 2025 (assent 20 Dec 2025) omitted s.213 of the Indian Succession Act | `simple-will` legal basis notes probate is no longer a precondition; execution rules in s.63 are unchanged |
 | e-Jagriti replaced e-Daakhil for consumer filing (1 Jan 2025) | Consumer templates refer to e-Jagriti |
 | SHe-Box portal relaunched 29 Aug 2024 | `posh-complaint` legal basis mentions SHe-Box as a filing route |
+| Motor Vehicles Act s.166(3) six-month limit under challenge; Supreme Court interim order, Nov 2025 | `motor-accident-claim-application` legal basis flags it. **Re-check before publishing** |
 | Draft Registration Bill, 2025 (to replace the Registration Act, 1908) | Still a draft when last seen (early 2026). Templates cite the 1908 Act. **Re-check before publishing** the rent agreement, power of attorney and will |
 
-## The 21 templates
+## The 25 templates
 
 Mode: G = guided self-serve, A = advocate-reviewed.
 
@@ -51,6 +52,10 @@ Mode: G = guided self-serve, A = advocate-reviewed.
 | 19 | posh-complaint | G | SH Act 2013, s.2(n), 3, 9, 12, 16; Rules 2013, r.7 | PIB note of 12 Feb 2026; statutory text of s.9 | Six copies under r.7; Local Committee route where there is no IC or the complaint is against the employer; template addresses the IC only |
 | 20 | rera-delay-notice | G | RERA 2016, s.18(1), 31, 71 | Statutory text of s.18; State RERA orders | Interest rate and complaint form differ by State |
 | 21 | insurance-claim-grievance | G | Insurance Ombudsman Rules 2017 (amended to 9 Nov 2023), r.13, 14 | Council for Insurance Ombudsmen (cioins.co.in); text of r.14(3) | Rs 50 lakh cap and one-year limit are stated in the legal basis, not enforced by the form; para 6 asserts full disclosure and paid-up premium for every user — reviewer may want these as user-confirmed fields; life-claim repudiation has its own rules (Insurance Act s.45) |
+| 22 | legal-heir-affidavit | G | Oaths Act 1969; State revenue rules for legal heir certificates; contrast Indian Succession Act Part X (s.370-390) | Bank and legal explainers on legal heir vs succession certificate; Madras High Court view that a Tahsildar's certificate is not a succession certificate | State-specific proforma and who must attest; banks often want their own indemnity format; this affidavit is evidence only, not authority to collect |
+| 23 | maintenance-notice | A | BNSS 2023, s.144 | LiveLaw comparison of s.125 CrPC and s.144 BNSS; commentary on interim maintenance (60 days) | Notice is not a legal precondition; which statute suits the facts (personal law, DV Act 2005, Senior Citizens Act 2007); s.144 does not let a husband claim; safety screening where there is domestic violence |
+| 24 | motor-accident-claim-application | A | MV Act 1988, s.165, 166, 168 | Supreme Court interim order of Nov 2025 on s.166(3) (LiveLaw, Bar & Bench); Delhi High Court text of s.166(3) | **Limitation is unsettled**: six-month limit challenged, interim order bars dismissal as time-barred; final ruling not seen. State MACT rules prescribe the form; hit-and-run and s.164 no-fault claims need different templates; pleads driver negligence for every user |
+| 25 | agreement-to-sell | A | TPA 1882, s.54, 53A; Registration Act 1908, s.17(1A), 49; Specific Relief Act 1963 | Supreme Court (Jan 2025 and 13 Aug 2026) and High Court rulings on s.54 and s.17(1A) | Stamp duty and compulsory registration vary by State; forfeiture clause must be reasonable to be enforceable; tax-deduction clause left generic because the Income-tax Act, 2025 renumbered sections; RERA applies instead for builder sales |
 
 ## Sources
 
@@ -76,5 +81,5 @@ Secondary (used where the official text was not directly retrievable)
 
 - Dates print as `2026-11-22`. Legal documents should print `22 November 2026`.
 - Optional fields left blank print as an empty value after their label.
-- All 21 are tier `free`; which ones are Pro is a business decision not yet made.
+- All 25 are tier `free`; which ones are Pro is a business decision not yet made.
 - Hindi/Marathi PDF export needs a Devanagari font and text shaping.
