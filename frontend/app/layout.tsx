@@ -11,12 +11,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <nav className="nav">
-          <b>DHARA Template Studio</b>
+          <Link href="/" className="brand">
+            DHARA Template Studio
+          </Link>
           <Link href="/browse">Browse</Link>
           <Link href="/pricing">Pricing</Link>
           <Link href="/account">My Drafts</Link>
           <Link href="/admin">Admin</Link>
-          <Link href="/login">Login</Link>
+          <Link href="/login" className="cta">
+            Sign in
+          </Link>
         </nav>
         {children}
       </body>

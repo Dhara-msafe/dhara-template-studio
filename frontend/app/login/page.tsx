@@ -32,18 +32,18 @@ export default function LoginPage() {
     }
   }
 
-  async function continueAsGuest() {
-    router.push("/browse");
-  }
-
   return (
-    <div className="container" style={{ maxWidth: 420 }}>
+    <div className="container narrow">
+      <div className="eyebrow">{mode === "login" ? "Welcome back" : "Create your account"}</div>
+      <h1 style={{ fontSize: 28, marginBottom: 24 }}>
+        {mode === "login" ? "Sign in" : "Join Template Studio"}
+      </h1>
       <div className="card">
-        <div className="row" style={{ marginBottom: 16 }}>
-          <button className={mode === "login" ? "" : "secondary"} onClick={() => setMode("login")}>
+        <div className="row" style={{ marginBottom: 18 }}>
+          <button className={"pill-filter " + (mode === "login" ? "active" : "")} onClick={() => setMode("login")}>
             Sign in
           </button>
-          <button className={mode === "signup" ? "" : "secondary"} onClick={() => setMode("signup")}>
+          <button className={"pill-filter " + (mode === "signup" ? "active" : "")} onClick={() => setMode("signup")}>
             Create account
           </button>
         </div>
@@ -59,14 +59,13 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error && <div className="error">{error}</div>}
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} style={{ width: "100%" }}>
             {loading ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}
           </button>
         </form>
-        <p className="muted" style={{ marginTop: 14 }}>
-          <a href="#" onClick={continueAsGuest}>
-            Continue as guest →
-          </a>
+        <div className="divider" />
+        <p className="muted" style={{ textAlign: "center" }}>
+          <a href="/browse">Continue as guest →</a>
         </p>
       </div>
     </div>

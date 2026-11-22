@@ -10,6 +10,7 @@ export default function DraftFillPage() {
   const [template, setTemplate] = useState<any>(null);
   const [fields, setFields] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState(true);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -27,10 +28,13 @@ export default function DraftFillPage() {
   function onFieldChange(key: string, value: string) {
     const next = { ...fields, [key]: value };
     setFields(next);
+    setSaved(false);
     if (saveTimer.current) clearTimeout(saveTimer.current);
-    // Debounced autosave (~2s), matching the Fill & Preview page's build notes.
     saveTimer.current = setTimeout(() => {
-      api.updateDraft(id, next).catch((err) => setError(err.message));
+      api
+        .updateDraft(id, next)
+        .then(() => setSaved(true))
+        .catch((err) => setError(err.message));
     }, 2000);
   }
 
@@ -51,9 +55,14 @@ export default function DraftFillPage() {
 
   return (
     <div className="container">
-      <h1>{template.title}</h1>
+      <div className="eyebrow">{template.category}</div>
+      <h1 style={{ marginBottom: 2 }}>{template.title}</h1>
+      <p className="muted" style={{ marginBottom: 24 }}>
+        {saved ? "All changes saved" : "Saving…"}
+      </p>
       {error && <div className="error">{error}</div>}
-      <div className="grid" style={{ gridTemplateColumns: "1fr 1fr", alignItems: "start" }}>
+
+      <div className="grid cols-2">
         <div className="card">
           <h3>Fill in your details</h3>
           {template.field_schema.map((f: any) => (
@@ -61,28 +70,29 @@ export default function DraftFillPage() {
               <label>
                 {f.label} {f.required && "*"}
               </label>
-              <div className="row">
+              <div className="field-row">
                 <input
                   type={f.type === "number" ? "number" : f.type === "date" ? "date" : "text"}
                   value={fields[f.key] || ""}
                   onChange={(e) => onFieldChange(f.key, e.target.value)}
                 />
-                <button type="button" className="secondary" onClick={() => voiceFill(f.key)} title="Fill by voice">
+                <button type="button" className="secondary icon-btn" onClick={() => voiceFill(f.key)} title="Fill by voice">
                   🎙
                 </button>
               </div>
             </div>
           ))}
         </div>
-        <div className="card">
+
+        <div className="card" style={{ position: "sticky", top: 90 }}>
           <h3>Preview</h3>
-          <p className="muted">
-            Live preview renders here as you type. Final formatted document is generated on export.
-          </p>
-          <pre style={{ whiteSpace: "pre-wrap", fontSize: 13 }}>
-            {Object.entries(fields)
-              .map(([k, v]) => `${k}: ${v}`)
-              .join("\n")}
+          <p className="muted">Final formatted document is generated on export.</p>
+          <pre style={{ whiteSpace: "pre-wrap" }}>
+            {Object.entries(fields).length
+              ? Object.entries(fields)
+                  .map(([k, v]) => `${k}: ${v}`)
+                  .join("\n")
+              : "Start typing to see your answers here…"}
           </pre>
           <div className="row">
             <a className="btn" href={api.exportDraftUrl(id, "pdf")}>

@@ -21,35 +21,42 @@ export default function AdminPage() {
 
   return (
     <div className="container">
-      <h1>Admin &amp; Review Dashboard</h1>
-      <p className="muted">
-        Requires a reviewer or admin role — set via <code>profiles.role</code> in Supabase. Nothing a citizen
-        sees skips this queue (publish-gate, TS-07).
+      <div className="eyebrow">Reviewer / admin</div>
+      <h1>Review dashboard</h1>
+      <p className="lede">
+        Requires a reviewer or admin role, set on <code>profiles.role</code> in Supabase. Nothing a citizen sees
+        skips this queue.
       </p>
-      <div className="row" style={{ marginBottom: 16, flexWrap: "wrap" }}>
+
+      <div className="row" style={{ marginBottom: 20 }}>
         {STATUS_FILTERS.map((s) => (
-          <button key={s} className={statusFilter === s ? "" : "secondary"} onClick={() => setStatusFilter(s)}>
-            {s || "All"}
+          <button
+            key={s}
+            className={"pill-filter " + (statusFilter === s ? "active" : "")}
+            onClick={() => setStatusFilter(s)}
+          >
+            {s ? s.replace(/_/g, " ") : "All"}
           </button>
         ))}
       </div>
       {error && <div className="error">{error}</div>}
+
       <div className="card">
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <table>
           <thead>
             <tr>
-              <th style={{ textAlign: "left" }}>Title</th>
-              <th style={{ textAlign: "left" }}>Category</th>
-              <th style={{ textAlign: "left" }}>Status</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {items.map((t) => (
               <tr key={t.id}>
-                <td>{t.title}</td>
-                <td>{t.category}</td>
+                <td style={{ fontWeight: 600 }}>{t.title}</td>
+                <td className="muted">{t.category}</td>
                 <td>
-                  <span className="badge">{t.status}</span>
+                  <span className="badge">{t.status.replace(/_/g, " ")}</span>
                 </td>
               </tr>
             ))}

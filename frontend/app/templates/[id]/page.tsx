@@ -23,7 +23,7 @@ export default function TemplateDetailPage() {
       router.push(`/drafts/${draft.id}`);
     } catch (err: any) {
       // Backend returns 402 for Pro-gated, 403 for advocate-only — mirrors
-      // the frontend gate so neither side can be bypassed (per build notes).
+      // the frontend gate so neither side can be bypassed.
       setError(err.message || "Could not start a draft");
     } finally {
       setStarting(false);
@@ -35,24 +35,35 @@ export default function TemplateDetailPage() {
 
   return (
     <div className="container">
-      <div className="card">
-        <span className="badge">{template.tier === "pro" ? "Pro" : "Free"}</span>
-        {template.mode !== "guided_self_serve" && <span className="badge">{template.mode.replace("_", "-")}</span>}
-        <h1>{template.title}</h1>
-        <p className="muted">{template.category}</p>
-        {template.legal_basis && <p>{template.legal_basis}</p>}
-        <h3>Fields you'll fill in</h3>
-        <ul>
-          {template.field_schema.map((f) => (
-            <li key={f.key}>
-              {f.label} {f.required && <span className="muted">(required)</span>}
-            </li>
-          ))}
-        </ul>
-        {error && <div className="error">{error}</div>}
-        <button onClick={fillThisTemplate} disabled={starting}>
-          {starting ? "Starting…" : "Fill this template"}
-        </button>
+      <div className="grid cols-2">
+        <div>
+          <span className={"badge " + (template.tier === "pro" ? "tier-pro" : "tier-free")}>
+            {template.tier === "pro" ? "Pro" : "Free"}
+          </span>
+          {template.mode !== "guided_self_serve" && (
+            <span className="badge">
+              {template.mode === "advocate_only" ? "Advocate-only" : "Advocate-reviewed"}
+            </span>
+          )}
+          <h1 style={{ fontSize: 32 }}>{template.title}</h1>
+          <p className="muted">{template.category}</p>
+          {template.legal_basis && <p style={{ marginTop: 14 }}>{template.legal_basis}</p>}
+        </div>
+
+        <div className="card" style={{ position: "sticky", top: 90 }}>
+          <h3>Fields you'll fill in</h3>
+          <ul style={{ paddingLeft: 18, margin: "10px 0 18px" }}>
+            {template.field_schema.map((f) => (
+              <li key={f.key} style={{ marginBottom: 4 }}>
+                {f.label} {f.required && <span className="muted">(required)</span>}
+              </li>
+            ))}
+          </ul>
+          {error && <div className="error">{error}</div>}
+          <button onClick={fillThisTemplate} disabled={starting} style={{ width: "100%" }}>
+            {starting ? "Starting…" : "Fill this template"}
+          </button>
+        </div>
       </div>
     </div>
   );

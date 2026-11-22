@@ -29,36 +29,41 @@ export default function AccountPage() {
 
   return (
     <div className="container">
+      <div className="eyebrow">Your account</div>
       <h1>My Drafts</h1>
       {error && <div className="error">{error}</div>}
+
       <div className="card">
         {drafts.length === 0 && <p className="muted">No drafts yet — start one from the Browse page.</p>}
-        {drafts.map((d) => (
-          <div key={d.id} className="row" style={{ justifyContent: "space-between", padding: "8px 0" }}>
-            <Link href={`/drafts/${d.id}`}>Draft — updated {new Date(d.updated_at).toLocaleString()}</Link>
-            <div className="row">
-              <button className="secondary" onClick={() => api.duplicateDraft(d.id).then(refresh)}>
-                Duplicate
-              </button>
-              <button className="secondary" onClick={() => api.deleteDraft(d.id).then(refresh)}>
-                Delete
-              </button>
+        {drafts.map((d, i) => (
+          <div key={d.id}>
+            <div className="row between" style={{ padding: "10px 0" }}>
+              <Link href={`/drafts/${d.id}`} style={{ fontWeight: 600 }}>
+                Draft — updated {new Date(d.updated_at).toLocaleString()}
+              </Link>
+              <div className="row">
+                <button className="secondary" onClick={() => api.duplicateDraft(d.id).then(refresh)}>
+                  Duplicate
+                </button>
+                <button className="secondary" onClick={() => api.deleteDraft(d.id).then(refresh)}>
+                  Delete
+                </button>
+              </div>
             </div>
+            {i < drafts.length - 1 && <div className="divider" />}
           </div>
         ))}
       </div>
 
-      <h2>Account</h2>
+      <h2 style={{ marginTop: 36 }}>Account</h2>
       <div className="card">
         {account && (
-          <>
-            <p>
-              Plan: <b>{account.plan}</b>
-            </p>
-            <p>
-              Advocate verification: <b>{account.advocate_verification}</b>
-            </p>
-          </>
+          <div className="row" style={{ marginBottom: 14 }}>
+            <span className={"badge " + (account.plan === "pro" ? "tier-pro" : "tier-free")}>
+              {account.plan === "pro" ? "Pro plan" : "Free plan"}
+            </span>
+            <span className="badge">Advocate: {account.advocate_verification}</span>
+          </div>
         )}
         {account?.advocate_verification === "none" && (
           <form onSubmit={applyAsAdvocate}>
